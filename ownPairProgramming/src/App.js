@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import 'bootstrap/dist/css/bootstrap.css'
 
 import {connect} from 'react-redux';  
 import {bindActionCreators} from 'redux';  
 import * as challengesActions from './actions/challengesActions';  
-
 
 class App extends Component {
   render() {

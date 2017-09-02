@@ -5,8 +5,8 @@ export default function challengesReducer(state=initialState.challenges, action)
 	console.log("state is: ", state);
 	console.log("action is: ", action);
 	switch(action.type) {
-		case 'GET_CHALLENGES':
-			console.log("Reducer: GET_CHALLENGES.");		
+		case 'GET_CHALLENGES_SUCCESS':
+			console.log("Reducer: GET_CHALLENGES_SUCCESS.");		
 			return action.payload;
 		default:
 			console.log("Reducer: default."); 

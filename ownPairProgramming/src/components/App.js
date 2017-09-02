@@ -10,7 +10,7 @@ export default class App extends React.Component {
         <div className="container">
           {this.props.children}
         </div>
-        <Footer />
+        <Footer />  
       </div>
     )
   }

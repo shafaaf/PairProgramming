@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
-import challenges from './challengesReducer';
 import currentUser from './currentUserReducer';
+import challenges from './challengesReducer';
 
 const rootReducer = combineReducers({
   currentUser,

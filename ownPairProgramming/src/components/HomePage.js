@@ -4,21 +4,21 @@ import {bindActionCreators} from 'redux';
 import * as challengesActions from '../actions/challengesActions';
 import * as userActions from '../actions/userActions.js';
 
-
 class HomePage extends React.Component {
-  componentDidMount() {
+  componentDidMount() { // Just get initial challenges list
     if (this.props.challenges.length == 0) {
-      this.props.actions.getChallenges()
+      this.props.actions.getChallenges()  
     }
   }
 
   chooseUserName(userName) {
     this.props.actions.assignUserName(userName);
   }
+
   render() {
     return (
       <div>
-        <h1>This is the home page</h1>
+        <h1>This is the home page.</h1>
       </div>
     )
   }

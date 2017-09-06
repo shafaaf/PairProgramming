@@ -9,23 +9,22 @@ export function getChallengesSuccess(challenges) {
 }
 
 
-export function willReceiveChallenges() {
+export function willReceiveChallenges() {	// Can show loading bar here
 	console.log("Action dispatched- willReceiveChallenges.");
 	return {type: 'WILL_RECEIVE_CHALLENGES'}
 }
-
 export function getChallenges() {
 	console.log("Action dispatched- getChallenges.");
-	return function (dispatch) {
-		dispatch(willReceiveChallenges());
-		return fetch(url)
+  	return (dispatch) => {
+  		dispatch(willReceiveChallenges());
+  		return fetch(url)
       		.then(
         		response => response.json(),
         		error => console.log('An error occured.', error)
       		)
 			.then(json => {
-				console.log("getChallenges: json is: ", json);
+				console.log("getChallenges: json from server: ", json);
 				dispatch(getChallengesSuccess(json));
 			})
-  	}
+  	};
 }

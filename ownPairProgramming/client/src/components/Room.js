@@ -102,8 +102,11 @@ class Room extends React.Component {
 			};
 			return (
 				<div>
-				<h1>code is: {this.state.code}</h1>
 					<div className="container">
+						<div>
+							<h1>Event log</h1>
+						</div>
+						<h1>Code is: {this.state.code}</h1>
 						<p>This is room id: {this.props.challenge.id}</p>
 						<h2>{this.props.challenge.title}</h2>
 						<p>{this.props.challenge.description}</p>

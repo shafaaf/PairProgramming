@@ -38,12 +38,14 @@ class Room extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			code: ''
+			code: '',
+			users: [],
+			currentlyTyping: null
 		};
 		// New code events sent only to specific chat room channels,
 		// and so this socket will receive it only if hes on that room
 		socket.on('receiveCode', (payload) => {
-			console.log("receiveCode called.");
+			console.log("receiveCode called with payload: ", payload);
 			this.updateCodeFromSockets(payload);
 		});
 	}
@@ -54,7 +56,7 @@ class Room extends React.Component {
 		console.log("componentDidMount: this.props is: ", this.props);
 		// Happens when refresh on room page as challenges not yet available locally
 		if (this.props.challenge == undefined) {
-			console.log("componentDidMount: challenge.id undefined.");
+			console.log("componentDidMount: this.props.challenge undefined.");
 			this.props.actions.getChallenges();
 		}
 		else{	// Happens when redirect and come to room page after getting challenges before.	
@@ -64,6 +66,7 @@ class Room extends React.Component {
 	}
 
 	// Called when refreshing on room page since then will receive new props from mapStateToProps
+	// IMP - this not called when switched onto this rooms route since NO props passed
 	componentWillReceiveProps(nextProps){
 		console.log("componentWillReceiveProps running. nextProps is: ", nextProps);
 		socket.emit('enterRoom', {room: nextProps.challenge.id});
@@ -74,20 +77,26 @@ class Room extends React.Component {
 		socket.emit('leaveRoom', { room: this.props.challenge.id })
 	}
 
-	updateCodeInState(newText) {
-    	this.setState({code: newText}, 
+	userUpdatingCode(newText) {
+    	this.setState({
+    		code: newText,
+    		currentlyTyping: this.props.currentUser
+    	}, 
     		() => {
     			 socket.emit('userCoding', {
 				    room: this.props.challenge.id,
-				    newCode: newText
+				    newCode: newText,
+				    currentlyTyping: this.props.currentUser
 				  })
     		});
   	}
 
   	updateCodeFromSockets(payload) {
-  		console.log("updateCodeFromSockets: payload is: ", payload);
   		var newCode = payload.newCode;
-    	this.setState({ code: newCode });
+    	this.setState({ 
+    		code: newCode,
+    		currentlyTyping: payload.currentlyTyping
+    	});
   	}
 
 	render() {
@@ -106,13 +115,14 @@ class Room extends React.Component {
 						<div>
 							<h1>Event log</h1>
 						</div>
-						<h1>Code is: {this.state.code}</h1>
+						<h3>currentlyTyping is: {this.state.currentlyTyping}</h3>
+						<h3>Code is: {this.state.code}</h3>
 						<p>This is room id: {this.props.challenge.id}</p>
 						<h2>{this.props.challenge.title}</h2>
 						<p>{this.props.challenge.description}</p>
 						<Codemirror 
 					        value={this.state.code}
-					        onChange={this.updateCodeInState.bind(this)}
+					        onChange={this.userUpdatingCode.bind(this)}
 					        options={options} />				
 					</div>
 				</div>
@@ -124,7 +134,7 @@ class Room extends React.Component {
 // Note: Runs again when reducer changes state
 function mapStateToProps(state, ownProps) {  
 	if (state.challenges.length > 0) {
-		console.log("mapStateToProps: state is: ", state);
+		console.log("mapStateToProps: challenges not empty. state is: ", state);
 		console.log("mapStateToProps: ownProps is: ", ownProps);
 		const challenge = state.challenges.filter(challenge => 
 		{
@@ -132,15 +142,15 @@ function mapStateToProps(state, ownProps) {
 		})[0];	// Since using filter so get first 1
 		console.log("mapStateToProps: challenge is: ", challenge);
 		if(challenge == undefined){
-			return { challenge: null};
+			return { challenge: null, currentUser: state.currentUser};
 		}
 		else{
-			return {challenge: challenge};
+			return {challenge: challenge, currentUser: state.currentUser};
 		}
 	}
 	else {
-		console.log("challenges empty- mapStateToProps: state is: ", state);
-		return {challenge: null}
+		console.log("mapStateToProps: challenges empty. state is: ", state);
+		return {challenge: null, currentUser: state.currentUser}
 	}
 }
 

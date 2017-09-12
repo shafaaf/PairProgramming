@@ -25,7 +25,7 @@ export default class ChooseUserName extends React.Component {
 					<Form inline style={{textAlign: "center"}}>
 						<FormGroup controlId="formInlineEmail">
 							<FormControl 
-								type="email" 
+								type="text" 
 								placeholder={this.props.userName} 
 								onChange={this.usernameHandleChange.bind(this)}/>
 						</FormGroup>

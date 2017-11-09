@@ -1,13 +1,13 @@
 # Real-Time Pair Programming App 
 
-## Main Technologies Used
+### Main Technologies Used
 * React
 * Redux
-* Socket.IO
+* SocketIO
 
-* *Tutorial* - *http://www.thegreatcodeadventure.com/real-time-react-with-socket-io-building-a-pair-programming-app/*
-* *Final code from tutorial* -  *https://github.com/SophieDeBenedetto/react-pair*
-
+### Tutorial
+* [Instructions](http://www.thegreatcodeadventure.com/real-time-react-with-socket-io-building-a-pair-programming-app/)
+* [Code](https://github.com/SophieDeBenedetto/react-pair)
 
 ### Installation And Basic Setup
 
